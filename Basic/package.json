@@ -1,0 +1,31 @@
+{
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "sequelize-cli": "^6.6.0"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "colors": "^1.4.0",
+    "express": "^4.18.2",
+    "mysql2": "^3.2.4",
+    "sequelize": "^6.31.0"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "name": "sequelize",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dhruvn-patel/ORM-MySQL.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dhruvn-patel/ORM-MySQL/issues"
+  },
+  "homepage": "https://github.com/Dhruvn-patel/ORM-MySQL#readme",
+  "description": ""
+}
