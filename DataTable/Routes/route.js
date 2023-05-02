@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const {jqueryDataController, UserController, addDataController, paginationController } = require('../Controller/userController')
+const { showDataController, jqueryDataController, UserController, addDataController, paginationController } = require('../Controller/userController')
 
 router.get('/', UserController);
 router.post('/addData', addDataController);
-router.get('/pagination', paginationController);
+router.get('/gettwoData', paginationController);
 router.get('/getData', jqueryDataController);
+router.get('/showData', showDataController);
 
 
 module.exports = router;

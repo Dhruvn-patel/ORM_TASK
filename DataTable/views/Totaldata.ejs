@@ -8,14 +8,16 @@
     <title>Index page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.semanticui.min.css" />
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.semanticui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
 </head>
 
 <body>
 
     <div class="container">
-        <table id="customer_data" class="table table-bordered">
+        <table id="customer_data" class="ui celled table" style="width:100%">
             <thead>
                 <tr>
                     <th>First Name</th>
@@ -37,12 +39,14 @@
 
 </body>
 
-<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
 </body>
 
 </html>
 
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
+<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#customer_data').DataTable({
@@ -51,9 +55,7 @@
             'processing': true,
             'serverSide': true,
             'aaSorting': [], // To prevent initial sorting from server
-            columnDefs: [
-                { orderable: false, targets: 0 }
-            ],
+
             'columns': [
                 { data: 'firstName' },
                 { data: 'lastName' },

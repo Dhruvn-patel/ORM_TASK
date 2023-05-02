@@ -25,13 +25,15 @@
             <div class="card-header">Customer Data</div>
             <div class="card-body">
                 <div class="table-responsive">
-                
+
                     <table id="customer_data" class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>First Name</th>
                                 <th>Last Name</th>
                                 <th>Email</th>
+                                <th>Photo Name</th>
+                                <th>URl</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,33 +49,22 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#customer_data').DataTable({
-                ajax: '/getData',
+                ajax: '/gettwoData',
                 'processing': true,
                 'serverSide': true,
                 'serverMethod': 'get',
                 'aaSorting': [], // To prevent initial sorting from server,
-                data: function (data) {
-                    // Add additional parameters here if needed
-                    data.draw = data.draw || 1;
-                    data.start = data.start || 0;
-                    data.length = data.length || 10;
-                    data.search = data.search || '';
-                },
                 'columns': [
                     { data: 'firstName' },
                     { data: 'lastName' },
                     { data: 'email' },
+                    { data: 'Photo.Name', orderable: false },
+                    { data: 'Photo.url', orderable: false },
                 ],
 
             });
 
-            $('#search_val').on('keyup', function () {
-                // Get the search value
-                const searchValue = this.value;
 
-                // Filter the table data based on the search value
-                table.columns().search(searchValue).draw();
-            });
         });
 
 
