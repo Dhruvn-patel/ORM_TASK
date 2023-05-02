@@ -123,7 +123,7 @@ const paginationController = async (req, res) => {
     const { id, attributeName, direction } = req.body;
     const limit = 3;
     const offset = (id - 1) * limit;
-    try {
+    try {   
         const data = await UserModel.findAll({
             offset: offset, limit: limit,
             order: [[`${attributeName}`, `${direction}`]],
