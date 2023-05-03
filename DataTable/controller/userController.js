@@ -5,7 +5,7 @@ const { faker } = require('@faker-js/faker');
 const User = db.User;
 const Employee = db.Employee;
 const Photo = db.Photo;
-const UserController = async (req, res) => {
+const userController = async (req, res) => {
     // console.log('Hello from UserController');
 
     return res.render('Totaldata')
@@ -70,49 +70,57 @@ const paginationController = async (req, res) => {
     } else {
         var orderBy = ["id"];
     }
-    const data = await User.findAndCountAll({
+
+
+    const data = await Photo.findAndCountAll({
+        offset: parseInt(start),
+        limit: parseInt(length),
+        order: [orderBy],
         where: {
             [Op.or]: [
                 {
-                    firstName: {
+                    '$User.firstName$': {
                         [Op.like]: `${searchValue}%`,
                     }
                 },
                 {
-                    lastName: {
+                    '$User.lastName$': {
                         [Op.like]: `${searchValue}%`,
                     }
                 },
                 {
-                    email: {
+                    '$User.email$': {
                         [Op.like]: `${searchValue}%`,
                     }
                 },
                 , {
-                    '$Photo.Name$': {
+                    Name: {
                         [Op.like]: `${searchValue}%`,
                     }
                 },
                 {
-                    '$Photo.url$': {
+                    url: {
                         [Op.like]: `${searchValue}%`,
                     }
                 }
             ],
 
-        },
-        include: [{
-            model: Photo,
-            as: 'Photo',
-            attributes: ['Name', 'url'],
-        }]
-        ,
-        offset: parseInt(start),
-        limit: parseInt(length),
-        order: [orderBy],
+        }
 
+        ,
+        include: [{
+            model: User,
+            // as: 'Photo',
+            attributes: ['firstName', 'lastName', 'email'],
+
+        }],
     });
     // console.log(data);
+
+
+    // data.forEach(e => {
+    //     console.log(e.Name, e.url);
+    // });
     res.json({
         draw,
         recordsTotal: data.count,
@@ -123,37 +131,37 @@ const paginationController = async (req, res) => {
 }
 
 
-const jqueryDataController = async (req, res) => {
-
-
+const oneToneDataTableControlller = async (req, res) => {
     const draw = req.query.draw;
     const start = req.query.start;
     const length = req.query.length;
-    var order = req.query.order;
-
-
-
-    console.log("draw", draw);
-    console.log("start", start);
-    console.log("length", length);
-    console.log("order", order);
-
-
+    let order = req.query.order;
     const search = req.query.search;
     const searchValue = search.value;
-    console.log(searchValue);
-
-
+    let columns = req.query.columns;
+    let ordertable;
     if (order) {
-        var column = order[0].column;
-        var dir = order[0].dir;
-        var colName = req.query.columns[column].data;
-        console.log("column", column);
-        console.log("dir", dir);
-        console.log(colName);
-        var orderBy = [[colName, dir]];
-    } else {
-        var orderBy = ["id"];
+        let orderCol = order[0].column;
+        let orderDir = order[0].dir;
+        // console.log("columns", columns);
+        // console.log("orderColumns", orderCol);
+        let orderBy = columns[orderCol].data;
+        console.log(orderBy);
+        let orderSplit = orderBy.split(".");
+        console.log("orderby", orderBy);
+        let orderByModelName = orderSplit[0];
+        let orderByCol = orderSplit[1];
+        console.log("Model Name", orderByModelName);
+        console.log("Col Name", orderByCol);
+        console.log(slice);
+        if (orderByModelName == "Employee") {
+            ordertable = ["Employee", orderByCol, orderDir];
+        } else {
+            ordertable = [orderBy, orderDir];
+        }
+    }
+    else {
+        ordertable = ["id"]
     }
     const data = await User.findAndCountAll({
         where: {
@@ -194,34 +202,30 @@ const jqueryDataController = async (req, res) => {
                     }
                 }
             ],
-
-
         },
         include: [
             {
                 model: Employee,
-                // as: 'Employee',
+                require: true,
                 attributes: ['position', 'office', 'startDate', 'salary']
             }
-        ]
-        ,
+        ],
         offset: parseInt(start),
         limit: parseInt(length),
-        order: [orderBy],
-
-
+        order: [ordertable],
     });
-    // console.log(data);
+
     res.json({
         draw,
         recordsTotal: data.count,
         recordsFiltered: data.count,
         data: data.rows
     });
+
 }
 
 const showDataController = async (req, res) => {
     return res.render('index');
 }
 
-module.exports = { showDataController, UserController, addDataController, paginationController, jqueryDataController }
+module.exports = { showDataController, userController, addDataController, paginationController, oneToneDataTableControlller }

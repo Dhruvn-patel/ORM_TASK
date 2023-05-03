@@ -54,16 +54,16 @@
             'lengthMenu': [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
             'processing': true,
             'serverSide': true,
-            'aaSorting': [], // To prevent initial sorting from server
+            // 'aaSorting': [], // To prevent initial sorting from server
 
             'columns': [
                 { data: 'firstName' },
                 { data: 'lastName' },
                 { data: 'email' },
-                { data: 'Employee.position', orderable: false },
-                { data: 'Employee.startDate', orderable: false },
-                { data: 'Employee.office', orderable: false },
-                { data: 'Employee.salary', orderable: false },
+                { data: 'Employee.position' },
+                { data: 'Employee.startDate' },
+                { data: 'Employee.office' },
+                { data: 'Employee.salary' },
             ],
 
         });
