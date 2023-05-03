@@ -27,10 +27,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeValidate: (user, options) => {
-        user.FirstName = 'piyush';
+        // user.FirstName = 'piyush';
       },
       afterValidate: (user, options) => {
-        user.username = 'Raj';
+        // user.username = 'Raj';
       }
     },
     sequelize,

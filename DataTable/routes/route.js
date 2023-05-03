@@ -9,5 +9,4 @@ router.get('/gettwoData', oneToManyController);
 router.get('/getData', oneToneControlller);
 router.get('/showData', showDataController);
 
-
 module.exports = router;

@@ -1,18 +1,19 @@
 const { Sequelize, Op, DataTypes, useInflection } = require('sequelize');
 
 const db = require('../models');
-const User = db.User
-const Contact = db.Contact
-const Profile = db.Profile
-const UserContact = db.UserContact;
-const Projexct = db.Project;
-const UserProject = db.UserProject
-const Person = db.Person
-const Image = db.Image
-const Video = db.Video
-const Comment = db.Comment
-const Tag = db.Tag
-const TagJunc = db.TagJunc;
+const { User, Contact, Profile, UserContact, Project, UserProject, Person, Image, Video, Comment, Tag, TagJunc } = db;
+// const User = db.User
+// const Contact = db.Contact
+// const Profile = db.Profile
+// const UserContact = db.UserContact;
+// const Projexct = db.Project;
+// const UserProject = db.UserProject
+// const Person = db.Person
+// const Image = db.Image
+// const Video = db.Video
+// const Comment = db.Comment
+// const Tag = db.Tag
+// const TagJunc = db.TagJunc;
 
 // console.log(db.contactuser);
 const UserController = async (req, res) => {
@@ -42,8 +43,7 @@ const UserController = async (req, res) => {
 
 const onetmanyController = async (req, res) => {
     const { FirstName, LastName, email, address, contactNumber } = req.body;
-
-
+    console.log(FirstName);
     /*
     {
     "FirstName":"Shima",
@@ -54,47 +54,6 @@ const onetmanyController = async (req, res) => {
     }
     */
     // ! insert data
-    // const data = await User.create({
-    //     FirstName: FirstName,
-    //     LastName: LastName,
-    //     email: email
-
-    // })
-
-    // let contact;
-    // if (data && data.dataValues.id) {
-    //     contact = await Contact.create({
-    //         address: address,
-    //         contactNumber: contactNumber,
-    //         user_id: data.dataValues.id
-    //     })
-    //     return res.status(201).json({data, contact})
-    // }
-    // else
-    // {
-    //     return res.status(404).json({msg: "user data not valid"})
-    // }
-
-    // async function createUserWithContact() {
-    //     try {
-    //       const user = await User.create({
-    //         FirstName: 'John',
-    //         LastName: 'Doe',
-    //         email: 'johndoe@example.com',
-    //         Contacts: [{
-    //           address: '123 Main St.',
-    //           contactNumber: 5515315,
-    //         }]
-    //       }, {
-    //         include: [Contact]
-    //       });
-    //       console.log(user.toJSON());
-    //     } catch (err) {
-    //       console.error(err);
-    //     }
-    //   }
-    //   createUserWithContact();
-
     // !association one to many
     const user = await User.create({
         FirstName: FirstName,
@@ -107,12 +66,13 @@ const onetmanyController = async (req, res) => {
     }, {
         include: [Contact]
     });
-    console.log(user);
+    // console.log(user);
     return res.status(200).json(user);
     //lazy loading
     // const getdta = await data.getContacts();
 
 
+    // ! get data
     const getdta = await User.findAll({
         attributes: ["id", "FirstName"]
         , include: [{
@@ -132,7 +92,7 @@ const onetmanyController = async (req, res) => {
 }
 
 const manytmanyController = async (req, res) => {
-    const { FirstName, LastName, email, ProjectName, id } = req.body;
+    const { FirstName, LastName, email, ProjectName } = req.body;
     /*
     {
     "FirstName":"Shima",
@@ -143,45 +103,33 @@ const manytmanyController = async (req, res) => {
     }
     */
     // ! insert data
-    // const data = await User.create({
-    //     FirstName: FirstName,
-    //     LastName: LastName,
-    //     email: email
-
-    // })
-
-    // let projectData;
-    // if (data && data.dataValues.id) {
-    //     projectData = await Project.create({
-    //         Name: ProjectName,
-    //     })
-    // }
-    // else {
-    //     return res.status(404).json({ msg: "user data not valid" })
-    // }
-
     // // console.log(projectData.dataValues.id);
-    // if (projectData.dataValues.id && data.dataValues.id) {
-    //     await UserProject.create({
-    //         UserId: data.dataValues.id,
-    //         ProjectId: projectData.dataValues.id
-    //     })
-    //     return res.status(201).json(data);
-    // }
-    // else
-    //     return res.status(404).json({ msg: "project data not valid" })
+    //! insert data
+    const user = await User.create({
+        FirstName: FirstName,
+        LastName: LastName,
+        email: email,
+        //Projects is table Name
+        Projects: [{
+            Name: ProjectName,
+        }]
+    }, {
+        include: [Project]
+    });
+    console.log(user);
+    return res.status(200).json(user);
 
 
 
-    const getdta = await User.findAll({
-        attributes: ["id", "FirstName"]
-        , include: [{
-            model: Project,
-        }],
-        where: {
-            id: id
-        }
-    })
+    // const getdta = await User.findAll({
+    //     attributes: ["id", "FirstName"]
+    //     , include: [{
+    //         model: Project,
+    //     }],
+    //     where: {
+    //         id: id
+    //     }
+    // })
 
     return res.status(200).json(getdta);
 
@@ -216,7 +164,20 @@ const onetoneProfile = async (req, res) => {
     //     return res.json({ msg: "user data not valid" })
     // }
 
-
+    //!insert data
+    // const profileName = Person.belongsTo(Profile, { as: 'profile' });
+    // const user = await Person.create({
+    //     Name: Name,
+    //     email: email,
+    //     Profiles: [{
+    //         pancard: pancard,
+    //         bio: bio,
+    //     }]
+    // }, {
+    //     association: Product.User,
+    //     include: [profileName]
+    // });
+    // return res.json(user)
     // !get data
     /*
  {
@@ -405,5 +366,7 @@ const manytomanypoly = async (req, res) => {
 
     return res.status(200).json({ imageAdd, videoAdd, tagAdd })
 }
+
+
 module.exports = { UserController, onetmanyController, eagerController, onetoneProfile, manytmanyController, scopeUser, hooksController, polyonetomany, manytomanypoly }
 
