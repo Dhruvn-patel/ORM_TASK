@@ -1,7 +1,10 @@
 const path = require('path');
 const { Sequelize, Op, QueryTypes, where } = require('sequelize');
 const { faker } = require('@faker-js/faker');
+
+
 const db = require('../models');
+const { appendFile } = require('fs');
 const User = db.User;
 const Employee = db.Employee;
 const Photo = db.Photo;

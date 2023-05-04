@@ -5,6 +5,7 @@ const routes = require('./routes/createUser')
 app.set('view engine', 'ejs');
 // app.use(express.static())
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }));
 app.use('/', routes);
 
 

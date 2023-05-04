@@ -2,20 +2,7 @@ const { Sequelize, Op, DataTypes, useInflection } = require('sequelize');
 
 const db = require('../models');
 const { User, Contact, Profile, UserContact, Project, UserProject, Person, Image, Video, Comment, Tag, TagJunc } = db;
-// const User = db.User
-// const Contact = db.Contact
-// const Profile = db.Profile
-// const UserContact = db.UserContact;
-// const Projexct = db.Project;
-// const UserProject = db.UserProject
-// const Person = db.Person
-// const Image = db.Image
-// const Video = db.Video
-// const Comment = db.Comment
-// const Tag = db.Tag
-// const TagJunc = db.TagJunc;
 
-// console.log(db.contactuser);
 const UserController = async (req, res) => {
 
 
@@ -55,40 +42,82 @@ const onetmanyController = async (req, res) => {
     */
     // ! insert data
     // !association one to many
-    const user = await User.create({
-        FirstName: FirstName,
-        LastName: LastName,
-        email: email,
-        Contacts: [{
-            address: address,
-            contactNumber: contactNumber,
-        }]
-    }, {
-        include: [Contact]
-    });
-    // console.log(user);
-    return res.status(200).json(user);
+    // const user = await User.create({
+    //     FirstName: FirstName,
+    //     LastName: LastName,
+    //     email: email,
+    //     Contacts: [{
+    //         address: address,
+    //         contactNumber: contactNumber,
+    //     }]
+    // }, {
+    //     include: [Contact]
+    // });
+    // // console.log(user);
+    // return res.status(200).json(user);
     //lazy loading
     // const getdta = await data.getContacts();
 
 
     // ! get data
-    const getdta = await User.findAll({
-        attributes: ["id", "FirstName"]
-        , include: [{
-            model: Contact,
-        }],
-        where: {
-            email: email
-        }
-    })
+    // const getdta = await User.findAll({
+    //     attributes: ["id", "FirstName"]
+    //     , include: [{
+    //         model: Contact,
+    //     }],
+    //     where: {
+    //         email: email
+    //     }
+    // })
 
     /*
     {"email":"Nirali@gmail.com"}
     */
-    return res.status(200).json(getdta);
+    // return res.status(200).json(getdta);
+
+    //!update data
+
+    // const updateData = await User.update({
+    //     email: 'a@gmail.com',
+    // },
+    //     {
+    //         where: { id: 1 }
+    //     })
+    // if (updateData) {
+    //     await Contact.update({
+    //         address: '2323'
+    //     }, {
+    //         where: { user_id: '2' }
+    //     })
+    // }
+
+    //! update only second table
+    const updateData = await User.findByPk(3);
+    //  if (updateData) {
+    //     await Contact.update({
+    //         address: '684984'
+    //     }, {
+    //         where: { user_id: '1' }
+    //     })
+    // }
+    const setData = await updateData.setContacts({
+        address: 'fsvsd'
+    })
+    console.log(setData);
+    return res.status(200).json(updateData)
 
 
+
+    //!Delete data
+    // const deleteData = await User.findByPk(3)
+    //delete all contact for particular user id =1 and user_id set null
+
+    //delete particular contact with address
+    // const rolesToBeRemoved = await deleteData.getContacts({ where: { address: 'ram' } })
+    // console.log(rolesToBeRemoved);
+    // await deleteData.removeContacts(rolesToBeRemoved)
+    // Contact.destroy({ where: { user_id: null } })
+    // return res.status(200).json(deleteData)
 }
 
 const manytmanyController = async (req, res) => {
@@ -269,104 +298,8 @@ const hooksController = async (req, res) => {
     return res.status(200).json(data);
 }
 
-const polyonetomany = async (req, res) => {
-
-    // ! inserted data into comments table
-    // // const imageAdd={};
-    // const videoAdd = {};
-    // const imageAdd = await Image.create({
-    //     title: 'img 3',
-    //     url: "img3.jpg"
-    // })
-
-    // const videoAdd = await Video.create({
-    //     title: 'Video 2',
-    //     text: "Video 2 is available"
-    // })
-    // if (imageAdd.id) {
-    //     await Comment.create({
-    //         title: "Comments image 2 added",
-    //         commentableId: imageAdd.id,
-    //         commentableType: 'image'
-    //     })
-    // }
-    // if (videoAdd.id) {
-    //     await Comment.create({
-    //         title: "Comments video 2 added ",
-    //         commentableId: videoAdd.id,
-    //         commentableType: 'video'
-    //     })
-    // }
 
 
-    // !img to comments table
-    // const imgComments = await Image.findAll({
-    //     include: [{
-    //         model: Comment
-    //     }]
-    // })
 
-    // !comments to img  table
-    // const videoComments = await Video.findAll({
-
-    //     include: [{
-    //         model: Comment
-    //     }]
-    // })
-    // // // !comment to img table
-    // const CommentData = await Comment.findAll({
-    //     include: [{
-    //         model: Image
-    //     }]
-    // })
-
-    // return res.status(200).json(videoComments);
-}
-
-
-const manytomanypoly = async (req, res) => {
-    // ! inserted data into comments table
-    // // const imageAdd={};
-    // const videoAdd = {};
-    const imageAdd = await Image.create({ title: 'img1', url: "img1.jpg" })
-    const videoAdd = await Video.create({ title: 'Video 1', text: "Video 1 is available" })
-    const tagAdd = await Tag.create({ name: 'Fullstack Tag' });
-    console.log(imageAdd);
-    if (imageAdd.id && tagAdd.id) {
-        await TagJunc.create({
-            tagId: tagAdd.id,
-            taggableId: imageAdd.id,
-            taggableType: 'image',
-        })
-
-    }
-    if (videoAdd.id && tagAdd.id) {
-        await TagJunc.create({
-            tagId: tagAdd.id,
-            taggableId: videoAdd.id,
-            taggableType: 'video',
-        })
-
-    }
-
-    // !img to comments table
-    // const imgComments = await Image.findAll({
-    //     include: [{
-    //         model: Comment
-    //     }]
-    // })
-
-    // !comments to img  table
-    // const videoComments = await Video.findAll({
-
-    //     include: [{
-    //         model: Comment
-    //     }]
-    // })
-
-    return res.status(200).json({ imageAdd, videoAdd, tagAdd })
-}
-
-
-module.exports = { UserController, onetmanyController, eagerController, onetoneProfile, manytmanyController, scopeUser, hooksController, polyonetomany, manytomanypoly }
+module.exports = { UserController, onetmanyController, eagerController, onetoneProfile, manytmanyController, scopeUser, hooksController }
 

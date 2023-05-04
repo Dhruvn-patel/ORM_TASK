@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Contact.belongsTo(models.User, { foreignKey: 'user_id', as: 'users' });
+      Contact.belongsTo(models.User, { foreignKey: 'user_id', as: 'users', allowNull: false });
 
       // Contact.belongsToMany(models.User, {
       //   through: 'UserContact',

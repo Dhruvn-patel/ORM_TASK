@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { polyonetomany, eagerController, hooksController, UserController, scopeUser, onetmanyController, onetoneProfile, manytmanyController, manytomanypoly } = require('../controllers/createUserController');
+const { eagerController, hooksController, UserController, scopeUser, onetmanyController, onetoneProfile, manytmanyController } = require('../controllers/createUserController');
+const { polyonetomany, manytomanypoly } = require('../controllers/polymorphiController');
 
 router.get('/', UserController);
 router.get('/onetonePerson', onetoneProfile);
