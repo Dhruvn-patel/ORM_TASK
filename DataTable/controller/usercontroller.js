@@ -8,7 +8,7 @@ const Photo = db.Photo;
 const userController = async (req, res) => {
     // console.log('Hello from UserController');
 
-    return res.render('Totaldata')
+    return res.render('totaldata')
 }
 
 const addDataController = async (req, res) => {

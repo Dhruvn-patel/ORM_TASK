@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 7050;
-const routes = require('./routes/createUser')
+const routes = require('./routes/createuser')
 app.set('view engine', 'ejs');
 // app.use(express.static())
 app.use(express.json())
