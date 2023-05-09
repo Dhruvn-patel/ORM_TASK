@@ -20,9 +20,9 @@ const postAddController = async (req, res) => {
 }
 
 const userAddController = async (req, res) => {
-
+    const {fName}=req.query;
     // ! create instance of user
-    const jane = await UserModel.create({ fName: "Yash" });
+    const jane = await UserModel.create({ fName: fName });
     // console.log(jane); // true
     // console.log(JSON.stringify(jane)); //
     // console.log('Jane was saved to the database!');
@@ -40,7 +40,7 @@ const userAddController = async (req, res) => {
 
 
     // ! delete instance of user
-    await jane.destroy();
+    // await jane.destroy();
     return res.status(201).json(jane)
 }
 

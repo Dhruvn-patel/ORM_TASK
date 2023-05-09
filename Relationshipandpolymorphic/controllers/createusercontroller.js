@@ -42,19 +42,19 @@ const onetmanyController = async (req, res) => {
     */
     // ! insert data
     // !association one to many
-    // const user = await User.create({
-    //     FirstName: FirstName,
-    //     LastName: LastName,
-    //     email: email,
-    //     Contacts: [{
-    //         address: address,
-    //         contactNumber: contactNumber,
-    //     }]
-    // }, {
-    //     include: [Contact]
-    // });
-    // // console.log(user);
-    // return res.status(200).json(user);
+    const user = await User.create({
+        FirstName: FirstName,
+        LastName: LastName,
+        email: email,
+        Contacts: [{
+            address: address,
+            contactNumber: contactNumber,
+        }]
+    }, {
+        include: [Contact]
+    });
+    // console.log(user);
+    return res.status(200).json(user);
     //lazy loading
     // const getdta = await data.getContacts();
 
@@ -100,11 +100,13 @@ const onetmanyController = async (req, res) => {
     //         where: { user_id: '1' }
     //     })
     // }
-    const setData = await updateData.setContacts({
-        address: 'fsvsd'
-    })
-    console.log(setData);
-    return res.status(200).json(updateData)
+    // const setData = await updateData.setContacts({
+    //     address: 'fsvsd',
+    //     where: { user_id: 3 }
+    // })
+    // setData.save()
+    // console.log(setData);
+    // return res.status(200).json(updateData)
 
 
 
@@ -131,8 +133,7 @@ const manytmanyController = async (req, res) => {
     "contactNumber":"16516"
     }
     */
-    // ! insert data
-    // // console.log(projectData.dataValues.id);
+
     //! insert data
     const user = await User.create({
         FirstName: FirstName,
@@ -148,6 +149,19 @@ const manytmanyController = async (req, res) => {
     console.log(user);
     return res.status(200).json(user);
 
+
+
+// // Delete records from junction table
+// const { UserProject } = require('../models');
+// await UserProject.destroy({ where: { projectId: 1 } }); 
+
+// // Delete records from user table
+// const { User } = require('../models');
+// await User.destroy({ where: { id: 1 } }); 
+
+// // Delete records from project table
+// const { Project } = require('../models');
+// await Project.destroy({ where: { id: 1 } }); 
 
 
     // const getdta = await User.findAll({

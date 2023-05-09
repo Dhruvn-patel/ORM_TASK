@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Project.belongsToMany(models.User, {
         through: 'UserProject',
+        onDelete: 'CASCADE'
       })
     }
   }

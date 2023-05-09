@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: Code Improve API
+  description: Optional multiline or single-line description in or HTML.
+  version: 1.0 .
+
+servers:
+  - url: http://localhost:4050/
+    description: Local server
+  - url: https://production.com/
+    description: Pre Production server
+  - url: https://testion.com/
+    description: Production server
+
+paths:
+  /users:
+    get:
+      tags:
+        - User details
+      # security:
+      #  - ApiTokenss: []
+      #  - ApiKey: []
+      summary: Returns All Users Information
+
+      # description: Parameter description in CommonMark or HTML.
+      # schema:
+      #     type : integer
+      #     format: int64
+      #     # type: integer
+      #     example: "Users String"
+      #     minimum: 1
+      responses:
+        "200":
+          description: OK
+
+  paths:
+   /addData:
+    post:
+      tags:
+        - User Add sd
+      summary: Returns a user list.
+      description: <b> Request :- </b> <br /> <br />
+        <b> page_no* </b>  is required <br />
+        <b> status* </b>  is required <br />
+        <b> type* </b>  is required <br />
+
+      parameters:
+        - in: query
+          name: month_year
+          schema:
+            #type: integer
+            example: 2022-10
+      post:
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            #application/json:
+            schema:
+              type: object
+              properties:
+                page_no:
+                  type: integer
+                  example: 1
+                type:
+                  type: string
+                  example: "A"
+                status:
+                  type: integer
+                  example: 0
+                fileName:
+                  type: string
+                  format: binary
+
+      responses:
+        "200":
+          description: A user object.
+        "400":
+          description: The specified user ID is invalid (not a number).
+        "404":
+          description: A user with the specified ID was not found.
+        default:
+          description: Unexpected error

@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 
       User.belongsToMany(models.Project, {
         through: 'UserProject',
+    
       })
     }
   }

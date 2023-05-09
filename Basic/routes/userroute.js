@@ -8,8 +8,14 @@ router.get('/', (req, res) => {
     return res.status(200).send('Hello World')
 })
 
-router.get('/dataAdd', userAddController)
+
+/**
+ * @swagger
+ * /users:
+ *  get
+ */
 router.get('/users', usersController)
+router.get('/dataAdd', userAddController)
 router.get('/users/:id', usersByIdController)
 router.delete('/users/:id', deleteUserByIdController)
 router.patch('/users/:id', patchUserByIdController)
